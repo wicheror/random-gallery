@@ -25,6 +25,8 @@
       object-fit: contain;
       display: block;
       border-radius: 16px;
+      opacity: 1;
+      transition: opacity 0.5s ease;
     }
   </style>
 </head>
@@ -34,11 +36,36 @@
 
   <script>
     const numberOfImages = 34;
-
-    const randomNumber = Math.floor(Math.random() * numberOfImages) + 1;
+    const changeEverySeconds = 5;
 
     const image = document.getElementById("random-image");
-    image.src = `${randomNumber}.png`;
+
+    let currentImage = null;
+
+    function getRandomImageNumber() {
+      let newImage;
+
+      do {
+        newImage = Math.floor(Math.random() * numberOfImages) + 1;
+      } while (newImage === currentImage);
+
+      currentImage = newImage;
+      return newImage;
+    }
+
+    function changeImage() {
+      image.style.opacity = 0;
+
+      setTimeout(() => {
+        const randomNumber = getRandomImageNumber();
+        image.src = `${randomNumber}.png`;
+        image.style.opacity = 1;
+      }, 500);
+    }
+
+    changeImage();
+
+    setInterval(changeImage, changeEverySeconds * 1000);
   </script>
 </body>
 </html>
